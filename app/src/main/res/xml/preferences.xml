@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Sync Information"
+        android:key="sync_category">
+
+        <CheckBoxPreference
+            android:key="work"
+            android:summary="Enable or disable data sync"
+            android:title="Enable Auto Sync"
+            android:defaultValue="true"/>
+
+        <EditTextPreference
+            android:key="handle"
+            android:title="Handle"
+            android:summary="Enter Codeforces Handle"
+            android:dialogTitle="Codeforces Handle"
+            android:dialogMessage="Enter Codeforces Handle"
+            android:defaultValue="your handle"
+            android:inputType="textCapWords"/>
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="Customisations"
+        android:key="custom_category">
+
+        <CheckBoxPreference
+            android:key="ac_sound"
+            android:summary="Enable or disable Accepted Ringtone"
+            android:title="Enable Accepted Ringtone"
+            android:defaultValue="true"/>
+
+        <RingtonePreference
+            android:key="accepted_ringtone"
+            android:title="Accepted Ringtone"
+            android:showDefault="true"
+            android:ringtoneType="all"
+            android:summary="Customise Accepted Ringtone for you"
+            android:dialogTitle="Accepted Ringtone"
+            android:dialogMessage="Customise Accepted Ringtone for you"/>
+
+        <CheckBoxPreference
+            android:key="wa_sound"
+            android:summary="Enable or disable Wrong Answers Ringtone"
+            android:title="Enable Wrong Answers Ringtone"
+            android:defaultValue="true"/>
+
+        <RingtonePreference
+            android:key="wa_ringtone"
+            android:title="Wrong Answers Ringtone"
+            android:showDefault="true"
+            android:ringtoneType="all"
+            android:summary="Customise Wrong Answers Ringtone for you"
+            android:dialogTitle="Wrong Answers Ringtone"
+            android:dialogMessage="Customise Wrong Answers Ringtone for you"/>
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

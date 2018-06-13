@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="accepted">#0a0</color>
+    <color name="wrongAnswer">#00a</color>
+    <color name="ni">#ccc</color>
+    <color name="pu">#078600</color>
+    <color name="sp">#03A89E</color>
+    <color name="ex">#0000cc</color>
+    <color name="cn">#a0a</color>
+    <color name="ms">#FF8C00</color>
+    <color name="is">#FF8C00</color>
+    <color name="gm">#FD074F</color>
+    <color name="igm">#FD074F</color>
+    <color name="lgm">#FD074F</color>
+</resources>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/problemName"
+        android:text="@string/problem_name"
+        android:fontFamily="sans-serif"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:padding="3dp"
+        tools:ignore="UnusedAttribute"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/submissionTime"
+        android:text="@string/submitted_at"
+        android:layout_below="@id/problemName"
+        android:textSize="14sp"
+        android:paddingLeft="5dp"
+        android:paddingStart="5dp"
+        android:fontFamily="monospace"
+        tools:ignore="RtlSymmetry,UnusedAttribute" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/verdict"
+        android:text="@string/verdict"
+        android:padding="3dp"
+        android:fontFamily="sans-serif-condensed"
+        android:textSize="18sp"
+        android:textStyle="bold|italic"
+        android:layout_below="@id/submissionTime"
+        tools:ignore="UnusedAttribute" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/data"
+        android:text="@string/run_amp_memory"
+        android:paddingLeft="5dp"
+        android:layout_below="@id/verdict"
+        android:paddingStart="5dp"
+        android:fontFamily="monospace"
+        tools:ignore="RtlSymmetry,UnusedAttribute" />
+</RelativeLayout>

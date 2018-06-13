@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">CodeForces Status Notifier</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="handle">Handle</string>
+    <string name="rate">Rate</string>
+    <string name="problem_name">Problem Name</string>
+    <string name="submitted_at">Submitted at</string>
+    <string name="verdict">verdict</string>
+    <string name="run_amp_memory"><![CDATA[run & memory]]></string>
+    <string name="accepted">Accepted</string>
+</resources>
