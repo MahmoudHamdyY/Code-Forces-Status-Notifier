@@ -11,13 +11,20 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -59,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
     String PicUrl, Handle, filter="";
     TextView handle,rate;
     ImageView iv;
-    ListView lv;
-    ListAdapter adapter;
+    RecyclerView lv;
+    RecyclerViewAdapter adapter;
     ProgressBar pb,dpb;
     SharedPreferences pref;
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -110,6 +117,11 @@ public class MainActivity extends AppCompatActivity {
         rate = findViewById(R.id.rate);
         iv = findViewById(R.id.iv);
         lv = findViewById(R.id.list);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        lv.setLayoutManager(linearLayoutManager);
+        DividerItemDecoration itemDecorator = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        itemDecorator.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider));
+        lv.addItemDecoration(itemDecorator);
         pb = findViewById(R.id.progressBar);
         dpb = findViewById(R.id.dpb);
         pb.setVisibility(View.VISIBLE);
@@ -160,30 +172,6 @@ public class MainActivity extends AppCompatActivity {
                 refresh();
             }
         });
-
-        lv.setOnScrollListener(new AbsListView.OnScrollListener() {
-
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-            }
-
-            public void onScroll(AbsListView view, int firstVisibleItem,
-                                 int visibleItemCount, int totalItemCount) {
-
-                if(firstVisibleItem+visibleItemCount == totalItemCount && totalItemCount!=0)
-                {
-                    if(!loading&&more)
-                    {
-                        loading = true;
-                        dpb.setVisibility(View.VISIBLE);
-                        Handle = pref.getString("handle","").trim();
-                        get=0;
-                        new getData().execute(Handle);
-                    }
-                }
-            }
-        });
-
         list = new ArrayList<>();
         loadUser();
         loadData();
@@ -203,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
         loadData();
     }
 
+
     void loadlist()
     {
         if(mSwipeRefreshLayout.isRefreshing())
@@ -211,24 +200,39 @@ public class MainActivity extends AppCompatActivity {
         pb.setVisibility(View.GONE);
         if(adapter==null)
         {
-            adapter=new ListAdapter(MainActivity.this,android.R.layout.simple_list_item_2,list);
+            adapter=new RecyclerViewAdapter(lv, MainActivity.this, list, new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Submission sub = list.get(i);
+                    if(!sub.getContestId().equals("")) {
+                        String url = "http://codeforces.com/contest/"+sub.getContestId()+"/submission/"+sub.getId();
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(browserIntent);
+                    }
+                }
+            });
+            adapter.setOnLoadMoreListener(new RecyclerViewAdapter.OnLoadMoreListener() {
+                @Override
+                public void onLoadMore() {
+                    if(!loading&&more)
+                    {
+                        loading = true;
+                        dpb.setVisibility(View.VISIBLE);
+                        Handle = pref.getString("handle","").trim();
+                        get=0;
+                        Log.d("HHHHH",Integer.toString(list.size()));
+                        new getData().execute(Handle);
+                    }else
+                        adapter.setLoaded();
+                }
+            });
             lv.setAdapter(adapter);
         }
         else
         {
             adapter.notifyDataSetChanged();
+            adapter.setLoaded();
         }
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Submission sub = list.get(i);
-                if(!sub.getContestId().equals("")) {
-                    String url = "http://codeforces.com/contest/"+sub.getContestId()+"/submission/"+sub.getId();
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                    startActivity(browserIntent);
-                }
-            }
-        });
         loading = false;
     }
 
@@ -241,6 +245,8 @@ public class MainActivity extends AppCompatActivity {
     void loadData()
     {
         list.clear();
+        if(adapter!=null)
+            adapter.notifyDataSetChanged();
         Handle = pref.getString("handle","").trim();
         get=0;
         new getData().execute(Handle);
@@ -321,6 +327,9 @@ public class MainActivity extends AppCompatActivity {
                     JSONArray arr = object.getJSONArray("result");
                     JSONObject usr = arr.getJSONObject(0);
                     PicUrl = usr.getString("titlePhoto");
+                    if(!PicUrl.contains("http"))
+                        PicUrl = "https:" + PicUrl;
+                    Log.d("ma3lsh",PicUrl);
                     Rate = usr.getInt("rating");
                     Picasso.with(MainActivity.this).load(PicUrl).fit().centerCrop().noFade().into(iv);
                     handle.setText(H);

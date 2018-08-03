@@ -98,6 +98,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipeContainer"
         android:layout_width="0dp"
+        android:padding="5dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintHorizontal_bias="1.0"
@@ -110,12 +111,16 @@
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintTop_creator="1" >
 
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/list"
-                android:layout_margin="5dp"
-                android:padding="3dp"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbars="vertical"
+                android:stackFromBottom="false"
+                android:transcriptMode="normal"
+                android:layout_margin="5dp"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
     <ProgressBar
